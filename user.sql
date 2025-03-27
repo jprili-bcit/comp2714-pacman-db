@@ -1,4 +1,5 @@
 CREATE TABLE `user` (
     `user_id` AUTO_INCREMENT PRIMARY KEY,
-    `name` VARCHAR(20) NOT NULL,
+    `name` VARCHAR(100) NOT NULL,
+    `email` VARCHAR(100) NOT NULL
 );
