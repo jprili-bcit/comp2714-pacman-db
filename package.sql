@@ -9,7 +9,7 @@ CREATE TABLE `package` (
         REFERENCES category(category_id)
 );
 
--- PACKAGEPACKAGE_HAS_VERSION[PackageID, VersionNo]_HAS_VERSION
+-- PACKAGE_HAS_VERSION[PackageID, VersionNo]_HAS_VERSION
 
 CREATE TABLE package_has_version (
     package_id INT,
