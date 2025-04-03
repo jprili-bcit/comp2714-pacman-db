@@ -5,7 +5,8 @@ CREATE TABLE `package` (
     package_id INT NOT NULL,
     category_id INT NOT NULL,
     CONSTRAINT pkg_pk PRIMARY KEY (user_id),
-    CONSTRAINT pkg_fk FOREIGN KEY (category_id) REFERENCES category(category_id)
+    CONSTRAINT pkg_fk FOREIGN KEY (category_id)
+        REFERENCES category(category_id)
 );
 
 -- PACKAGEPACKAGE_HAS_VERSION[PackageID, VersionNo]_HAS_VERSION
