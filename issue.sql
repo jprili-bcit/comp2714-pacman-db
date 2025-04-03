@@ -22,3 +22,16 @@ CREATE TABLE bug_report (
     CONSTRAINT br_pk PRIMARY KEY (issue_id),
     CONSTRAINT br_fk FOREIGN KEY (issue_id) REFERENCES issue(issue_id)
 );
+
+-- REPLIES_TO[ReplyID, UserID, IssueID, content, timestamp]
+
+CREATE TABLE replies_to (
+    reply_id INT NOT NULL,
+    user_id INT NOT NULL,
+    issue_id INT NOT NULL,
+    `content` LONGTEXT NOT NULL,
+    `timestamp` TIMESTAMP NOT NULL,
+    CONSTRAINT rt_pk PRIMARY KEY (reply_id),
+    CONSTRAINT rt_u_id_fk FOREIGN KEY (user_id) REFERENCES `user`(user_id),
+    CONSTRAINT rt_i_id_fk FOREIGN KEY (issue_id) REFERENCES issue(issue_id)
+);
