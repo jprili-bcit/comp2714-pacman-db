@@ -3,7 +3,7 @@ CREATE TABLE issue (
     issue_id INT NOT NULL,
     user_id INT NOT NULL,
     `timestamp` TIMESTAMP NOT NULL,
-    issue_type ENUM( 'bug_report', 'feature_request' ) NOT NULL,
+    `status` ENUM('new', 'opened', 'assigned', 'closed', 'abandoned') NOT NULL,
     CONSTRAINT iss_pk PRIMARY KEY (issue_id),
     CONSTRAINT iss_fk FOREIGN KEY (user_id) REFERENCES `user`(user_id)
 );
