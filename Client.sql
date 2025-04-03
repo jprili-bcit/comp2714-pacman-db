@@ -1,0 +1,4 @@
+CREATE TABLE Client (
+    UserID INT PRIMARY KEY,
+    FOREIGN KEY (UserID) REFERENCES User.ID
+);
