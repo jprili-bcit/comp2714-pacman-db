@@ -4,6 +4,9 @@ use pacman_db;
 CREATE TABLE `package` (
     package_id INT NOT NULL,
     category_id INT NOT NULL,
+    `name` TEXT NOT NULL,
+    `description` LONGTEXT NOT NULL,
+    `website` TEXT NOT NULL,
     CONSTRAINT pkg_pk PRIMARY KEY (package_id),
     CONSTRAINT pkg_fk FOREIGN KEY (category_id)
         REFERENCES category(category_id)
