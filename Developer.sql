@@ -1,0 +1,4 @@
+CREATE TABLE Developer (
+    UserID INT PRIMARY KEY,
+    FOREIGN KEY (UserID) REFERENCES User.ID
+);
