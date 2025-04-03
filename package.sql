@@ -112,3 +112,23 @@ CREATE TABLE provider_hosts_mirror (
         REFERENCES provider(provider_id)
 );
 
+-- DEPENDS_ON[HostPackageID, DependencyID, mandatory]
+CREATE TABLE depends_on (
+    host_package_id INT NOT NULL,
+    dependency_id INT NOT NULL,
+    mandatory BOOLEAN NOT NULL,
+    CONSTRAINT do_pk PRIMARY KEY (host_package_id, dependency_id),
+    CONSTRAINT do_hp_id FOREIGN KEY (host_package_id) REFERENCES `package`(package_id),
+    CONSTRAINT do_d_id FOREIGN KEY (dependency_id) REFERENCES `package`(package_id)
+);
+
+-- VERSION[VersionNo, architecture, platform, PackageID, date]
+CREATE TABLE version (
+    package_id INT NOT NULL,
+    version_number TEXT NOT NULL,
+    architecture ENUM('i386', 'x86_64', 'aarch32', 'aarch64', 'ppc32', 'ppc64', 'mips32', 'mips64', 'riscv64') NOT NULL,
+    platform ENUM('windows-nt', 'osx-darwin', 'gnu-linux', 'bsd', 'sel4', 'redox') NOT NULL,
+    `date` DATE NOT NULL,
+    CONSTRAINT ver_pk PRIMARY KEY (package_id, version_number, architecture, platform),
+    CONSTRAINT ver_pkg_id_fk FOREIGN KEY (package_id) REFERENCES `package`(package_id),
+);
