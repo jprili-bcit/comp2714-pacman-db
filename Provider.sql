@@ -1,0 +1,7 @@
+CREATE TABLE Provider (
+    ID INT,
+    MirrorURL VARCHAR(255),
+    Name VARCHAR(100) NOT NULL,
+    PRIMARY KEY (ID, MirrorURL), 
+    FOREIGN KEY (MirrorURL) REFERENCES Mirror(URL)
+);
