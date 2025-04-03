@@ -1,150 +1,111 @@
--- Insert Users
+USE pacman_db;
+
+-- Users
 INSERT INTO `user` (user_id, name, email) VALUES
-(1, 'Alice Johnson', 'alice@example.com'),
-(2, 'Bob Smith', 'bob@example.com'),
-(3, 'Charlie Brown', 'charlie@example.com');
+(1, 'Alice Johnson', 'alice.j@example.com'),
+(2, 'Bob Wilson', 'bob.w@example.com'),
+(3, 'Charlie Chen', 'charlie.c@example.com'),
+(4, 'Diana Miller', 'diana.m@example.com');
 
--- Insert Categories
-INSERT INTO `category` (category_id, name) VALUES
+-- Categories
+INSERT INTO category (category_id, name) VALUES
 (101, 'Development Tools'),
-(102, 'Security'),
-(103, 'Database');
+(102, 'Security Solutions'),
+(103, 'Database Systems'),
+(104, 'Networking');
 
--- Insert Packages
-INSERT INTO `package` (package_id, category_id) VALUES
-(1001, 101),
-(1002, 102),
-(1003, 103);
+-- Packages
+INSERT INTO package (package_id, category_id) VALUES
+(1001, 101),  -- DevToolKit
+(1002, 102),  -- SecureShield
+(1003, 103),   -- DataMaster
+(1004, 104);  -- NetOptimizer
 
--- Insert Clients
-INSERT INTO `client` (user_id) VALUES
-(1),
-(2);
+-- Clients
+INSERT INTO client (user_id) VALUES
+(1), (2);
 
--- Insert Developers
-INSERT INTO `developer` (user_id) VALUES
-(3);
+-- Developers
+INSERT INTO developer (user_id) VALUES
+(3), (4);
 
--- Insert Open Source Packages
-INSERT INTO `open_source` (package_id, license) VALUES
-(1001, 'MIT'),
+-- Package Types
+INSERT INTO open_source (package_id, license) VALUES
+(1001, 'GPL-3.0'),
 (1003, 'Apache-2.0');
 
--- Insert Proprietary Packages
-INSERT INTO `proprietary` (package_id, license, price) VALUES
-(1002, 'Commercial', 299);
+INSERT INTO proprietary (package_id, license, price) VALUES
+(1002, 'Commercial', 499),
+(1004, 'Enterprise', 899);
 
--- Insert Providers
-INSERT INTO `provider` (provider_id, name) VALUES
-(501, 'CloudHost Inc.'),
-(502, 'SecureData Corp.');
+-- Providers
+INSERT INTO provider (provider_id, name) VALUES
+(501, 'CloudTech Inc.'),
+(502, 'SafeHost Solutions');
 
--- Insert Repositories
-INSERT INTO `repository` (repository_id, repo_name, public_key, package_id) VALUES
-(201, 'DevToolsRepo', 'pubkey123', 1001),
-(202, 'SecureRepo', 'pubkey456', 1002);
+-- Repositories
+INSERT INTO repository (repository_id, repo_name, public_key, package_id) VALUES
+(201, 'devtools-repo', 'pubkey-abc123', 1001),
+(202, 'security-repo', 'pubkey-def456', 1002),
+(203, 'database-repo', 'pubkey-ghi789', 1003);
 
--- Insert Mirrors
-INSERT INTO `mirror` (mirror_url, repository_id, mirror_country, mirror_city, throughput) VALUES
-('http://mirror1.example.com', 201, 'USA', 'New York', 1000),
-('http://mirror2.example.com', 202, 'Germany', 'Berlin', 2000);
+-- Mirrors
+INSERT INTO mirror (mirror_url, repository_id, mirror_country, mirror_city, throughput) VALUES
+('https://mirror1.cloudtech.com', 201, 'USA', 'New York', 1000),
+('https://mirror2.cloudtech.com', 202, 'Germany', 'Frankfurt', 1500),
+('https://mirror3.safehost.net', 203, 'Singapore', 'Singapore', 2000);
 
--- Insert Reviews
-INSERT INTO `review` (review_id, package_id, user_id, rating, description, timestamp) VALUES
-(301, 1001, 1, 5, 'Excellent tool!', '2023-10-01 10:00:00'),
-(302, 1002, 2, 4, 'Good but pricey', '2023-10-02 11:00:00');
+-- Provider-Mirror Relationships
+INSERT INTO provider_hosts_mirror (provider_id, mirror_url) VALUES
+(501, 'https://mirror1.cloudtech.com'),
+(501, 'https://mirror2.cloudtech.com'),
+(502, 'https://mirror3.safehost.net');
 
--- Insert Issues
-INSERT INTO `issue` (issue_id, user_id, timestamp, issue_type) VALUES
-(401, 1, '2023-10-03 12:00:00', 'bug_report'),
-(402, 3, '2023-10-04 13:00:00', 'feature_request');
+-- Reviews
+INSERT INTO review (review_id, package_id, user_id, rating, description, timestamp) VALUES
+(301, 1001, 1, 5, 'Essential for modern development', '2023-10-01 09:00:00'),
+(302, 1002, 2, 4, 'Robust security features', '2023-10-02 10:30:00'),
+(303, 1003, 3, 5, 'Best database solution', '2023-10-03 11:45:00');
 
--- Insert Feature Requests
-INSERT INTO `feature_request` (issue_id) VALUES
+-- Issues
+INSERT INTO issue (issue_id, user_id, timestamp, issue_type) VALUES
+(401, 1, '2023-10-05 14:00:00', 'bug_report'),
+(402, 3, '2023-10-06 15:30:00', 'feature_request'),
+(403, 2, '2023-10-07 16:45:00', 'bug_report');
+
+-- Feature Requests
+INSERT INTO feature_request (issue_id) VALUES
 (402);
 
--- Insert Bug Reports
-INSERT INTO `bug_report` (issue_id, stack_trace) VALUES
-(401, 'NullPointerException at line 45');
+-- Bug Reports
+INSERT INTO bug_report (issue_id, stack_trace) VALUES
+(401, 'NullPointerException at line 87:FileProcessor.java'),
+(403, 'Memory leak detected in cache module');
 
--- Insert Replies to Issues
-INSERT INTO `replies_to` (reply_id, user_id, issue_id, content, timestamp) VALUES
-(501, 3, 401, 'We are investigating this.', '2023-10-03 14:00:00'),
-(502, 1, 402, 'Great suggestion!', '2023-10-04 15:00:00');
+-- Replies
+INSERT INTO replies_to (reply_id, user_id, issue_id, content, timestamp) VALUES
+(501, 3, 401, 'Fix scheduled for next patch', '2023-10-05 14:30:00'),
+(502, 4, 402, 'Feature added to roadmap', '2023-10-06 16:00:00'),
+(503, 3, 403, 'Investigating memory issues', '2023-10-07 17:00:00');
 
--- Insert Versions
-INSERT INTO `version` (version_id, package_id, version_no, architecture, platform, date) VALUES
-(601, 1001, 1, 'x86_64', 'gnu-linux', '2023-09-01'),
-(602, 1002, 2, 'aarch64', 'windows-nt', '2023-09-15');
+-- Versions
+INSERT INTO version (version_id, package_id, version_no, architecture, platform, date) VALUES
+(601, 1001, 1, 'x86_64', 'gnu-linux', '2023-09-15'),
+(602, 1002, 2, 'aarch64', 'windows-nt', '2023-09-20'),
+(603, 1003, 1, 'x86_64', 'osx-darwin', '2023-09-25');
 
--- Link Packages to Versions
-INSERT INTO `package_has_version` (package_id, version_id) VALUES
+-- Package-Version Relationships
+INSERT INTO package_has_version (package_id, version_id) VALUES
 (1001, 601),
-(1002, 602);
+(1002, 602),
+(1003, 603);
 
--- Insert Dependencies
-INSERT INTO `depends_on` (host_package_id, dependency_id, mandatory) VALUES
-(1001, 1002, TRUE);
+-- Dependencies
+INSERT INTO depends_on (host_package_id, dependency_id, mandatory) VALUES
+(1001, 1002, TRUE),   -- DevToolKit requires SecureShield
+(1003, 1001, FALSE);  -- DataMaster optionally uses DevToolKit
 
--- Link Versions to Issues
-INSERT INTO `version_contains_issue` (version_id, issue_id) VALUES
-(601, 401);
-
--- Insert Vendors
-INSERT INTO vendor (vendor_id, name, website) VALUES
-(701, 'TechVendor Corp', 'https://techvendor.com'),
-(702, 'SecureSoft Ltd', 'https://securesoft.net');
-
--- Link Vendors to Packages
-INSERT INTO vendor_owns_package (vendor_id, package_id) VALUES
-(701, 1001),
-(702, 1002);
-
--- Link Developers to Packages
-INSERT INTO developer_works_on_package (user_id, package_id) VALUES
-(3, 1001),  -- Charlie works on DevTools
-(3, 1002);  -- Charlie also works on Security pkg
-
--- Link Packages to Reviews
-INSERT INTO package_has_review (package_id, review_id) VALUES
-(1001, 301),  -- DevTools has review 301
-(1002, 302);  -- Security pkg has review 302
-
--- Link Repositories to Mirrors
-INSERT INTO repository_serves_mirror (repository_id, mirror_url) VALUES
-(201, 'http://mirror1.example.com'),
-(202, 'http://mirror2.example.com');
-
--- Documentation Authors
-INSERT INTO docu_author (author_id, name) VALUES
-(801, 'David Techwriter'),
-(802, 'Emma Docspecialist');
-
--- Documentation Entries (with author links)
-INSERT INTO documentation (doc_id, language, country, content, author_id) VALUES
-(901, 'EN', 'US', 'Installation Guide for DevTools', 801),
-(902, 'DE', 'DE', 'Sicherheitshandbuch', 802);
-
--- Update Authors with Doc References
-UPDATE docu_author SET doc_id = 901 WHERE author_id = 801;
-UPDATE docu_author SET doc_id = 902 WHERE author_id = 802;
-
--- Localizations
-INSERT INTO localisation (loc_id, language, country) VALUES
-(1001, 'EN', 'US'),
-(1002, 'DE', 'DE');
-
--- Link Versions to Localized Docs
-INSERT INTO version_has_loc_doc (version_id, loc_id) VALUES
-(601, 1001),  -- Version 601 has EN-US docs
-(602, 1002);  -- Version 602 has DE-DE docs
-
--- User Replies to Issues
-INSERT INTO user_replies_to_issue (user_id, issue_id, reply_timestamp) VALUES
-(3, 401, '2023-10-03 14:30:00'),  -- Charlie replies to bug 401
-(1, 402, '2023-10-04 15:15:00');   -- Alice replies to feature 402
-
--- Link Providers to Mirrors
-INSERT INTO provider_hosts_mirror (provider_id, mirror_url) VALUES
-(501, 'http://mirror1.example.com'),  -- CloudHost hosts mirror1
-(502, 'http://mirror2.example.com');  -- SecureData hosts mirror2
+-- Version-Issue Relationships
+INSERT INTO version_contains_issue (version_id, issue_id) VALUES
+(601, 401),  -- Version 1 of DevToolKit has issue 401
+(602, 403);  -- Version 2 of SecureShield has issue 403
