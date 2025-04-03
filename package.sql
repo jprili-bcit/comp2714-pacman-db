@@ -1,6 +1,8 @@
 use pacman_db;
 
--- PACKAGE_HAS_VERSION
+
+
+-- PACKAGEPACKAGE_HAS_VERSION[PackageID, VersionNo]_HAS_VERSION
 
 CREATE TABLE package_has_version (
     package_id INT,
@@ -10,7 +12,7 @@ CREATE TABLE package_has_version (
         REFERENCES package(package_id)
 );
 
--- DEPENDS_ON
+-- DEPENDS_ON[HostPackageID, DependencyID, Mandatory]
 
 CREATE TABLE depends_on (
     host_package_id INT,
@@ -21,7 +23,7 @@ CREATE TABLE depends_on (
         REFERENCES package(package_id)
 );
 
--- VENDOR_OWNS_PACKAGE
+-- VENDOR_OWNS_PACKAGE[VendorWebsite, VendorName, PackageID]
 
 CREATE TABLE vendor_owns_package (
     vendor_website VARCHAR(256),
@@ -32,7 +34,7 @@ CREATE TABLE vendor_owns_package (
         REFERENCES (package.package_id)
 );
 
--- DEVELOPER_WORKS_ON_PACKAGE
+-- DEVELOPER_WORKS_ON_PACKAGE[UserID, PackageID]
 
 CREATE TABLE developer_works_on_package (
     user_id    INT,
@@ -44,7 +46,7 @@ CREATE TABLE developer_works_on_package (
         REFERENCES package(package_id)
 );
 
--- PACKAGE_HAS_REVIEW
+-- PACKAGE_HAS_REVIEW[PackageID, ReviewID, UserID]
 
 CREATE TABLE package_has_review (
     package_id INT,
@@ -59,7 +61,7 @@ CREATE TABLE package_has_review (
         REFERENCES `user`(package_id)
 );
 
--- PACKAGE_BELONGS_TO_CATEGORY
+-- PACKAGE_BELONGS_TO_CATEGORY[PackageID, CategoryID]
 
 CREATE TABLE package_belongs_to_category (
     package_id  INT,
@@ -71,7 +73,7 @@ CREATE TABLE package_belongs_to_category (
         REFERENCES category(category_id)
 );
 
--- PACKAGE_PROVIDED_BY_REPOSITORY
+-- PACKAGE_PROVIDED_BY_REPOSITORY[PackageID, RepositoryID]
 
 CREATE TABLE package_provided_by_repository (
     package_id    INT,
@@ -83,7 +85,7 @@ CREATE TABLE package_provided_by_repository (
         REFERENCES package(repository_id)
 );
 
--- REPOSITORY_SERVES_MIRROR
+-- REPOSITORY_SERVES_MIRROR[RepositoryID, MirrorUrl]
 
 CREATE TABLE repository_serves_mirror (
     repository_id INT,
@@ -93,7 +95,7 @@ CREATE TABLE repository_serves_mirror (
         REFERENCES repository(repository_id)
 );
 
--- PROVIDER_HOSTS_MIRROR 
+-- PROVIDER_HOSTS_MIRROR[ProviderID, MirrorUrl] 
 
 CREATE TABLE provider_hosts_mirror (
     provider_id INT,
