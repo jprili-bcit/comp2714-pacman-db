@@ -15,11 +15,11 @@ INSERT INTO category (category_id, name) VALUES
 (104, 'Networking');
 
 -- Packages
-INSERT INTO package (package_id, category_id) VALUES
-(1001, 101),  -- DevToolKit
-(1002, 102),  -- SecureShield
-(1003, 103),   -- DataMaster
-(1004, 104);  -- NetOptimizer
+INSERT INTO package (package_id, category_id, `name`) VALUES
+(1001, 101, 'DevToolKit'),
+(1002, 102, 'SecureShield'),
+(1003, 103, 'DataMaster'),
+(1004, 104, 'NetOptimizer');
 
 -- Clients
 INSERT INTO client (user_id) VALUES
