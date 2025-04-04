@@ -109,3 +109,72 @@ INSERT INTO depends_on (host_package_id, dependency_id, mandatory) VALUES
 INSERT INTO version_contains_issue (version_id, issue_id) VALUES
 (601, 401),  -- Version 1 of DevToolKit has issue 401
 (602, 403);  -- Version 2 of SecureShield has issue 403
+
+-- Vendor Data
+INSERT INTO vendor (vendor_id, name, website) VALUES
+(701, 'Tech Innovators LLC', 'https://techinnovators.com'),
+(702, 'DataGuard Solutions', 'https://dataguard.net');
+
+-- Vendor-Package Relationships
+INSERT INTO vendor_owns_package (vendor_id, package_id) VALUES
+(701, 1001),  -- Tech Innovators owns DevToolKit
+(702, 1002),  -- DataGuard owns SecureShield
+(701, 1004);  -- Tech Innovators owns NetOptimizer
+
+-- Developer-Package Assignments
+INSERT INTO developer_works_on_package (user_id, package_id) VALUES
+(3, 1001),  -- Charlie works on DevToolKit
+(3, 1002),  -- Charlie works on SecureShield
+(4, 1003);  -- Diana works on DataMaster
+
+-- Package-Review Linking
+INSERT INTO package_has_review (package_id, review_id) VALUES
+(1001, 301),  -- DevToolKit has review 301
+(1002, 302),  -- SecureShield has review 302
+(1003, 303);  -- DataMaster has review 303
+
+-- Repository-Mirror Service Relationships
+INSERT INTO repository_serves_mirror (repository_id, mirror_url) VALUES
+(201, 'https://mirror1.cloudtech.com'),
+(202, 'https://mirror2.cloudtech.com'),
+(203, 'https://mirror3.safehost.net');
+
+-- Documentation Authors
+INSERT INTO docu_author (author_id, name) VALUES
+(801, 'Samuel Technicalwriter'),
+(802, 'Lena DocumentationExpert');
+
+-- Localization Entries
+INSERT INTO localisation (loc_id, language, country) VALUES
+(901, 'EN', 'US'),  -- English (United States)
+(902, 'DE', 'DE'),  -- German (Germany)
+(903, 'FR', 'FR');  -- French (France)
+
+-- Documentation Content
+INSERT INTO documentation (doc_id, language, country, content, author_id) VALUES
+(1001, 'EN', 'US', 'Complete DevToolKit User Guide', 801),
+(1002, 'DE', 'DE', 'Sicherheitshandbuch für SecureShield', 802),
+(1003, 'FR', 'FR', 'Guide de base de données DataMaster', 801);
+
+-- Version-Localized Doc Links
+INSERT INTO version_has_loc_doc (version_id, loc_id) VALUES
+(601, 901),  -- DevToolKit v1 has EN-US docs
+(602, 902),  -- SecureShield v2 has DE-DE docs
+(603, 903);  -- DataMaster v1 has FR-FR docs
+
+-- User-Issue Author Relationships
+INSERT INTO user_writes_issue (user_id, issue_id) VALUES
+(1, 401),  -- Alice created bug 401
+(3, 402),  -- Charlie created feature 402
+(2, 403);  -- Bob created bug 403
+
+-- User-Review Author Relationships
+INSERT INTO user_writes_review (user_id, review_id) VALUES
+(1, 301),  -- Alice wrote review 301
+(2, 302),  -- Bob wrote review 302
+(3, 303);  -- Charlie wrote review 303
+
+-- Additional Issue Replies
+INSERT INTO user_replies_to_issue (user_id, issue_id, reply_timestamp) VALUES
+(4, 401, '2023-10-05 15:00:00'),  -- Diana replied to bug 401
+(2, 402, '2023-10-06 16:30:00');   -- Bob replied to feature 402

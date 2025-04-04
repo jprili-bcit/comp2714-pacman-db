@@ -198,3 +198,120 @@ CREATE TABLE version_contains_issue (
     CONSTRAINT vci_issue_fk FOREIGN KEY (issue_id)
         REFERENCES issue(issue_id)
 );
+
+CREATE TABLE vendor (
+    vendor_id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    website VARCHAR(255) NOT NULL,
+    CONSTRAINT ven_pk PRIMARY KEY (vendor_id)
+);
+
+-- VENDOR_OWNS_PACKAGE table
+CREATE TABLE vendor_owns_package (
+    vendor_id INT NOT NULL,
+    package_id INT NOT NULL,
+    CONSTRAINT vop_pk PRIMARY KEY (vendor_id, package_id),
+    CONSTRAINT vop_vendor_fk FOREIGN KEY (vendor_id)
+        REFERENCES vendor(vendor_id),
+    CONSTRAINT vop_package_fk FOREIGN KEY (package_id)
+        REFERENCES package(package_id)
+);
+
+-- DEVELOPER_WORKS_ON_PACKAGE table
+CREATE TABLE developer_works_on_package (
+    user_id INT NOT NULL,
+    package_id INT NOT NULL,
+    CONSTRAINT dwop_pk PRIMARY KEY (user_id, package_id),
+    CONSTRAINT dwop_user_fk FOREIGN KEY (user_id)
+        REFERENCES developer(user_id),
+    CONSTRAINT dwop_package_fk FOREIGN KEY (package_id)
+        REFERENCES package(package_id)
+);
+
+-- PACKAGE_HAS_REVIEW table (junction table)
+CREATE TABLE package_has_review (
+    package_id INT NOT NULL,
+    review_id INT NOT NULL,
+    CONSTRAINT phr_pk PRIMARY KEY (package_id, review_id),
+    CONSTRAINT phr_package_fk FOREIGN KEY (package_id)
+        REFERENCES package(package_id),
+    CONSTRAINT phr_review_fk FOREIGN KEY (review_id)
+        REFERENCES review(review_id)
+);
+
+-- REPOSITORY_SERVES_MIRROR table
+CREATE TABLE repository_serves_mirror (
+    repository_id INT NOT NULL,
+    mirror_url VARCHAR(255) NOT NULL,
+    CONSTRAINT rsm_pk PRIMARY KEY (repository_id, mirror_url),
+    CONSTRAINT rsm_repo_fk FOREIGN KEY (repository_id)
+        REFERENCES repository(repository_id),
+    CONSTRAINT rsm_mirror_fk FOREIGN KEY (mirror_url)
+        REFERENCES mirror(mirror_url)
+);
+
+-- DOCUMENTATION TABLES (resolving circular dependency)
+CREATE TABLE docu_author (
+    author_id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    CONSTRAINT da_pk PRIMARY KEY (author_id)
+);
+
+CREATE TABLE documentation (
+    doc_id INT NOT NULL AUTO_INCREMENT,
+    language VARCHAR(2) NOT NULL,
+    country VARCHAR(2) NOT NULL,
+    content LONGTEXT NOT NULL,
+    author_id INT NOT NULL,
+    CONSTRAINT doc_pk PRIMARY KEY (doc_id),
+    CONSTRAINT doc_author_fk FOREIGN KEY (author_id)
+        REFERENCES docu_author(author_id)
+);
+
+ALTER TABLE docu_author
+ADD COLUMN doc_id INT,
+ADD CONSTRAINT da_doc_fk FOREIGN KEY (doc_id)
+    REFERENCES documentation(doc_id);
+
+-- LOCALISATION table
+CREATE TABLE localisation (
+    loc_id INT NOT NULL AUTO_INCREMENT,
+    language VARCHAR(2) NOT NULL,
+    country VARCHAR(2) NOT NULL,
+    CONSTRAINT loc_pk PRIMARY KEY (loc_id),
+    CONSTRAINT loc_unique UNIQUE (language, country)
+);
+
+-- VERSION_HAS_LOC_DOC table
+CREATE TABLE version_has_loc_doc (
+    version_id INT NOT NULL,
+    loc_id INT NOT NULL,
+    CONSTRAINT vhld_pk PRIMARY KEY (version_id, loc_id),
+    CONSTRAINT vhld_version_fk FOREIGN KEY (version_id)
+        REFERENCES version(version_id),
+    CONSTRAINT vhld_loc_fk FOREIGN KEY (loc_id)
+        REFERENCES localisation(loc_id)
+);
+
+-- USER_REPLIES_TO_ISSUE table
+CREATE TABLE user_replies_to_issue (
+    user_id INT NOT NULL,
+    issue_id INT NOT NULL,
+    reply_timestamp TIMESTAMP NOT NULL,
+    CONSTRAINT urti_pk PRIMARY KEY (user_id, issue_id, reply_timestamp),
+    CONSTRAINT urti_user_fk FOREIGN KEY (user_id)
+        REFERENCES user(user_id),
+    CONSTRAINT urti_issue_fk FOREIGN KEY (issue_id)
+        REFERENCES issue(issue_id)
+);
+
+-- PROVIDER_HOSTS_MIRROR table
+CREATE TABLE provider_hosts_mirror (
+    provider_id INT NOT NULL,
+    mirror_url VARCHAR(255) NOT NULL,
+    CONSTRAINT phm_pk PRIMARY KEY (provider_id, mirror_url),
+    CONSTRAINT phm_provider_fk FOREIGN KEY (provider_id)
+        REFERENCES provider(provider_id),
+    CONSTRAINT phm_mirror_fk FOREIGN KEY (mirror_url)
+        REFERENCES mirror(mirror_url)
+);
